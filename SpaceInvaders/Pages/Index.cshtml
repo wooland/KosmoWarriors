@@ -5,36 +5,31 @@
 
 
 <body onload="InitGame()">
-    <div id="gameSpace" style="margin-top:25px; margin-left:150px">
+    <div style="width: 100%; overflow: hidden;">
 
-    </div>
-    
-    <div class="container">
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">&nbsp;</div>
-            <div class="col-6">
-                User..........<input type="text" id="userInput" />
-                <br />
-                Message...<input type="text" id="messageInput" />
-                <input type="button" id="sendButton" value="Send Message" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <hr />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">&nbsp;</div>
-            <div class="col-6">
-                <ul id="messagesList"></ul>
-            </div>
+        <div id="gameSpace" style="margin-top:25px; margin-left:0px; float: left; width: 800px;">
         </div>
 
-    </div>
+        <div class="container" style="margin-left: 820px;">
+            <input onclick="reloadFunction()" type="button" id="reLoadButton" value="Restart Game" />
+            <br />
+            <input type="button" id="sendButton" value="Send Message" />    
+            <br />
+            <input type="text" id="userInput" />Namn
+            <br />
+            <input type="text" id="messageInput" />Meddelande
+            <br />
+            <ul id="messagesList" style="height:500px;width:300px;border:4px solid #ccc;font:16px/26px Arial;overflow:scroll;"></ul>
+           
+        </div>
 
-    @*<script src="~/js/site.js"></script>
-    <script src="~/lib/signalr/signalr.js"></script>
-    <script src="~/js/Chat.js"></script>*@
+        <script src="~/lib/signalr/signalr.js"></script>
+        <script src="~/js/Chat.js"></script>
+        <script>
+            function reloadFunction() {
+                location.reload();
+                 
+
+            }
+    </script>
 </body>

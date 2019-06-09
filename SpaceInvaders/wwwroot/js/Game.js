@@ -10,6 +10,8 @@ var explosions = [];
 var clouds = [];
 var bulletFired = false;
 
+var difficulty = 0;
+
 var p1Score;
 var bonus = 0;
 
@@ -119,9 +121,17 @@ function updateGameArea() {
                 
                 if (enemyPlanes[i].hp === 0) {
 
+                    if (enemyPlanes[i].type == "boss") {
+                        bonus += (1000 * (difficulty + 1));
+                    } else {
+                        bonus += (100 * (difficulty + 1));
+                    }
+                    
+
                     enemyPlanes.splice(i, 1);
 
-                    bonus += 100;
+                    
+                    
                 }
             }
             
@@ -150,14 +160,15 @@ function updateGameArea() {
             fire();
         }
     }
-    if (everyinterval(1000)) {
+    if (everyinterval(2000)) {
         enemyBoss();
+        difficulty++;
     }
     myGameSky.updateSky();
 
     playerOne.newPos();
     playerOne.update();
-    p1Score.text = "SCORE: " + (myGameSky.frameNo + bonus);
+    p1Score.text = "Lvl: " + difficulty + " " + "SCORE: " + (myGameSky.frameNo + bonus);
     p1Score.update();
     //Uppdatera enemy array
     for (i = 0; i < enemyPlanes.length; i += 1) {
@@ -184,17 +195,16 @@ function updateGameArea() {
 
 function enemy1() {
     var randomH = Math.floor(Math.random() * (569 - 32)) + 32;
-    var e = new airplane(20, 20, imgEnemy, 800, randomH, 3);
+    var e = new airplane(20, 20, imgEnemy, 800, randomH, 1 + difficulty);
     e.speedX = Math.random() * (-1 - -3) + -3;
     
     enemyPlanes.push(e);
 }
 
 function enemyBoss() {
-    var e = new airplane(128, 128, imgBoss, 800, 300, 10);
+    var e = new airplane(128, 128, imgBoss, 800, 300, 5 + (5 * difficulty));
     e.speedX = Math.random() * (-1 - -3) + -3;
     e.type = "boss";
-    e.hp = 10;
     e.hitRadius = 20;
     enemyPlanes.push(e);
 }
@@ -229,6 +239,18 @@ function airplane(width, height, image, x, y, hp) {
         ctx.drawImage(image, this.x, this.y);
     };
     this.update = function () {
+        if (this.type == "boss" && this.x < 500) {
+            this.speedX = 0;
+            if (this.y < 10) {
+                this.speedY = 1;
+            }
+            else if (this.y > 350) {
+                this.speedY = -1;
+            } else if (this.speedY == 0) {
+                this.speedY = -1;
+            }
+            
+        }
 
         if (myGameSky.keys && myGameSky.keys[37]) { playerOne.speedX = -1; }
         if (myGameSky.keys && myGameSky.keys[39]) { playerOne.speedX = 1; }
